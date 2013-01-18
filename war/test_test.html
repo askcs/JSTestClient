@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head >
+<title>Timeout ! Test </title>
+
+<script src="http://code.jquery.com/jquery.min.js"></script>
+
+<script src="/js/jquery.rest.min.js"></script>
+<script src="/js/util.js"></script>
+
+<script src="http://code.jquery.com/qunit/qunit-1.10.0.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.10.0.css" />
+
+
+
+<script type="text/javascript">
+	session.appServices = "http://api.sense-os.nl/";
+	
+	asyncTest( "asynchronous test: one second later!", function() {
+	  	expect( 1 );
+	  
+	  	var senseLogin = function(user, pass){
+			var para = {"username" : user , "password" : pass};
+			 $.ajax({
+		            url: session.appServices + 'login.json',
+		            type : "POST",
+		            async : false,
+		            xhrFields: {
+		                withCredentials: false
+		            },
+		            data: JSON.stringify(para),
+					dataType : 'json',		            
+		            statusCode : {
+		            	200 : function(data) {
+			            	console.log(data);
+							// var xid = JSON.parse(data)["X-SESSION_ID"];
+							console.log("xid",data.session_id);
+							session.setSessionKey(data.session_id);
+			            },
+			            400: function(data){
+			            	scriptLog(data);
+			            	console.log("400");
+						}
+		            },
+		            error: function(e) {
+		            	console.log(e);
+		            }
+		     });
+		}
+	 
+	  var getCurrentUser = function(){
+	  	var ret = 0 ;
+	  	session.get("users/current",null,function(res){
+	  		
+	  		if($.trim(res) != ""){
+	  			console.log("not empty",$.trim(res));
+	  			var user = JSON.parse(res);
+	  			if(typeof user.user != "undefined"){
+	  				console.log("current",user.user.id);
+	  				ret = user.user.id;
+	  			}
+	  		}
+  			
+  		},function(){
+  			
+  		});	
+  		
+  		return ret;
+	  }
+	  
+	  var senseDelete = function(senseId){
+	  	session.del("users/"+senseId,null,function(res){
+  			var user = JSON.parse(res);
+  			console.log(user.user.id + "deleted");
+  		},function(){
+  			
+  		});
+	  }
+	  
+	  setTimeout(function() {
+	    ok( true, "Passed and ready to resume!" );
+		start();
+	
+		senseLogin("test_a@ask-cs.com",MD5("askask"));
+		var userId = getCurrentUser();
+		if(userId != 0){
+			senseDelete(userId);
+		}
+		
+		
+		senseLogin("test_b@ask-cs.com",MD5("askask"));
+		userId = getCurrentUser();
+		if(userId != 0){
+			senseDelete(userId);
+		}
+		
+		senseLogin("test_ctc@ask-cs.com","contact");
+		userId = getCurrentUser();
+		if(userId != 0){
+			senseDelete(userId);
+		}
+			
+	  }, 1000);
+	  
+	});
+	
+    
+</script>
+
+</head>
+<body >
+	<div id="qunit"></div>
+  	<div id="qunit-fixture"></div>
+  	<div id="userLog"></div>
+</body>
+</html>
