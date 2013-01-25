@@ -81,20 +81,23 @@
 	    ok( true, "Passed and ready to resume!" );
 		start();
 	
-		senseLogin("test_a@ask-cs.com",MD5("askask"));
+		// senseLogin("test_a@ask-cs.com",MD5("askask"));
+		senseLogin("a1@asc.com",MD5("askask"));
 		var userId = getCurrentUser();
 		if(userId != 0){
 			senseDelete(userId);
 		}
 		
 		
-		senseLogin("test_b@ask-cs.com",MD5("askask"));
+		// senseLogin("test_b@ask-cs.com",MD5("askask"));
+		senseLogin("b1@asc.com",MD5("askask"));
 		userId = getCurrentUser();
 		if(userId != 0){
 			senseDelete(userId);
 		}
 		
-		senseLogin("test_ctc@ask-cs.com","contact");
+		// senseLogin("test_ctc@ask-cs.com","contact");
+		senseLogin("contact1@acs.com","contact");
 		userId = getCurrentUser();
 		if(userId != 0){
 			senseDelete(userId);

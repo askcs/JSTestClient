@@ -1,7 +1,5 @@
-// basic config
-session.appServices = "http://10.200.200.201:8888/ns_timeout/";
-
 // login part
+session.appServices = sessionStorage.getItem("appService");
 
 module("Login module");
 
