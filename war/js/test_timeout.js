@@ -23,8 +23,12 @@ function login(user, pass) {
 			200 : function(data) {
 				console.log("200");
 				ret = 1;
-
-				var xid = JSON.parse(data)["X-SESSION_ID"];
+				var xid = "";
+				if($.isPlainObject(data)){
+					xid = data['X-SESSION_ID'];
+				}else{
+					xid = JSON.parse(data)["X-SESSION_ID"];
+				}
 				console.log("xid", xid);
 				session.setSessionKey(xid);
 			},

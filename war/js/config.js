@@ -1,6 +1,7 @@
 var config = [{project : "Timeout", 
                AppURL : [{id : "1" , name: "local" , url : "http://10.200.200.201:8888/ns_timeout/"},
-                           {id : "2" , name: "app engine" , url : "http://timeout.ask-services.appspot.com/ns_timeout/"}], 
+                           {id : "2" , name: "app engine" , url : "http://timeout.ask-services.appspot.com/ns_timeout/"},
+                           {id : "3" , name: "add your own" , url : "http://replaceYourOwn/ns_timeout/"}], 
                scriptURL : "test_timeout.html"},
               {project : "Deal", 
                   AppURL : [{id : "1" , name: "local" , url : "http://10.200.200.201:8888/ns_deal/"},
